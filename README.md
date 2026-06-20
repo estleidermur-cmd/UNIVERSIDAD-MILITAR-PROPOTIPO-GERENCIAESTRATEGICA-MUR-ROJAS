@@ -1,13 +1,28 @@
-## Tablero de Priorización de Causas
+## Ficha de Indicador — Definición y Objetivo
 
-| Campo | Guía de diligenciamiento | Valor registrado |
-|---|---|---|
-| Causa | ¿Qué crees que está pasando 'detrás' del síntoma? Debe sonar a mecanismo, no a queja. | Falta de preparación para comprender el riesgo financiero y emocional antes de operar. |
-| Fase DT origen (E/D/I) | ¿De qué momento de Design Thinking salió? | D + I |
-| Insight de empatía | Una observación/cita corta que te inspiró la causa. | El usuario teme perder su capital, opera por impulso y reconoce que no cuenta con herramientas claras de gestión de riesgo ni control emocional. |
-| Supuesto central | ¿Qué crees que une la causa con el resultado? Es la 'apuesta'. | Asumimos que si los traders novatos reciben formación estructurada en gestión de riesgo y psicología del trading antes de operar, disminuirán las pérdidas severas, el sobreapalancamiento y las decisiones impulsivas. |
-| Pregunta analítica | Forma neutra y medible de la causa. Debe admitir 'Sí/No' o 'Mayor/Menor'. | ¿Los traders novatos que no reciben formación estructurada en gestión de riesgo presentan una mayor tasa de pérdida severa y mayor frecuencia de decisiones impulsivas que quienes sí reciben dicha formación? |
-| Variables (nombres exactos) | Columnas que usarás tal cual aparecen en la base (no inventes nombres). | `formacion_riesgo_estructurada; drawdown_maximo; operaciones_impulsivas; episodios_sobreapalancamiento; tiempo_experiencia; capital_inicial` |
-| Tipo (Outcome / Explic / Control / Segmento) | Etiqueta cada variable. 1. Outcome: lo que quieres explicar. 2. Explic (explicativa): lo que crees que causa. 3. Control: cosas que pueden distorsionar. 4. Segmento: variable para cortar resultados. | 1. Outcome: drawdown_maximo, operaciones_impulsivas, episodios_sobreapalancamiento.<br>2. Explic: formacion_riesgo_estructurada.<br>3. Control: tiempo_experiencia, capital_inicial.<br>4. Segmento: trader_novato (<12 meses). |
-| Cálculo / Transformación | Operaciones necesarias antes de la métrica final. | 1) Codificar formacion_riesgo_estructurada (1=Sí, 0=No).<br>2) Crear variable perdida_severa = 1 si drawdown_maximo > 20%.<br>3) Calcular tasa de operaciones impulsivas por mes.<br>4) Segmentar solo traders novatos. |
-| Métrica (nombre + fórmula) | Nombre corto +
+**Supuesto central:** Asumimos que si los traders novatos reciben formación estructurada en gestión de riesgo y psicología del trading antes de operar, disminuirán las pérdidas severas y las decisiones impulsivas.
+
+| Campo | Valor registrado |
+|---|---|
+| ¿QUÉ HAGO? (Acción) | Implementar un módulo obligatorio de formación en gestión de riesgo y psicología del trading antes de operar en real. |
+| ¿CÓMO LO HAGO? (Método) | A través de una ruta formativa digital con contenidos sobre tamaño de posición, stop loss, control emocional, journaling y simulación práctica previa. |
+| ¿PARA QUÉ LO HAGO? (Propósito) | Para reducir la probabilidad de pérdida severa, sobreapalancamiento y decisiones impulsivas en traders novatos. |
+| Aspecto específico a medir | La proporción de traders novatos sin formación estructurada que presentan pérdida severa (drawdown >20%). |
+| Público objetivo (Para quién) | Traders novatos con menos de 12 meses de experiencia en trading digital. |
+| Dimensión (Marca una) | Eficacia (¿logra el resultado?) |
+| **Nombre del indicador** | **Tasa de pérdida severa en traders novatos sin formación estructurada** |
+
+## Ficha de Indicador — Cálculo y Seguimiento
+
+| Campo | Valor registrado |
+|---|---|
+| Numerador (Variable Y) | Número de traders novatos sin formación estructurada con drawdown máximo superior al 20% en el periodo. |
+| Denominador (Población) | Total de traders novatos sin formación estructurada evaluados en el mismo periodo. |
+| Fórmula (Matemática) | `(Numerador / Denominador) * 100` |
+| Prueba de estrés | Si no hay registro confiable de drawdown, el indicador pierde validez. Si el número de traders observados es muy pequeño, el resultado puede sesgarse. También falla si no se distingue entre cuenta demo y cuenta real. |
+| Tipo (Marca una) | Tasa (%) |
+| Frecuencia de medición | Mensual, con corte consolidado trimestral. |
+| Fuente de datos (Verificación) | Historial de operaciones, journal del trader, registros de drawdown de la plataforma o broker y encuesta de formación recibida. |
+| Línea base (Patrón actual) | Línea base propuesta: 60% de traders novatos sin formación presentan drawdown >20% en su primer año. |
+| Patrón esperado (Meta) | Reducir la tasa de pérdida severa al 35% o menos después de implementar la formación obligatoria. |
+| **Condición de refutación (Fallo)** | **Si después de 3 meses la tasa no disminuye al menos 15 puntos porcentuales o la diferencia entre formados y no formados es menor a 10 puntos, la intervención no estaría funcionando.** |
