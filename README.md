@@ -1,3 +1,14 @@
+[Ver bloque de código 2] — Experimento analítico mínimo
+
+Prueba piloto con traders novatos segmentados por presencia de revenge_trading (no por formación), comparando perdida_severa entre ambos grupos.
+
+```sql
+SELECT trader_id, COUNT(*) AS operaciones_perdida_severa FROM operaciones WHERE drawdown > 0.20 AND segmento = 'novato' GROUP BY trader_id, revenge_trading;
+```
+
+Visual: barras comparativas (% perdida_severa por grupo revenge_trading) + tabla de riesgo relativo.
+
+---
 
 ## Contexto y Objetivo del Indicador
 
@@ -9,17 +20,8 @@
 
 | Público objetivo (Para quién) | Dimensión (Marca una) | Nombre del indicador | Numerador (Variable Y) | Denominador (Población) | Fórmula (Matemática) | Prueba de estrés | Tipo (Marca una) | Frecuencia de medición |
 |---|---|---|---|---|---|---|---|---|
-| Traders novatos con menos de 12 meses de experiencia en trading digital. | Eficacia (¿logra el resultado?) | **Tasa de pérdida severa en traders novatos** | Número de traders novatos con drawdown máximo superior al 20% en el periodo (perdida_severa = 1). | Total de traders novatos evaluados en el mismo periodo; puede segmentarse por formación recibida o por presencia de revenge trading sin cambiar la definición del indicador. | [Ver bloque de código 1] | Si no hay registro confiable de drawdown, el indicador pierde validez. Si el número de traders observados es muy pequeño, el resultado puede sesgarse. También falla si no se distingue entre cuenta demo y cuenta real. Adicionalmente: el journal del trader es un registro voluntario y suele subregistrar operaciones perdedoras por vergüenza o frustración, por lo que no debe usarse como fuente única -debe cruzarse con el historial de la plataforma/broker-; y la volatilidad del mercado durante el piloto y el capital inicial de la cuenta deben registrarse como variables de control, pues distorsionan el drawdown observado (las cuentas pequeñas se queman más rápido). | Tasa (%) | Mensual, con corte consolidado trimestral. |
+| Traders novatos con menos de 12 meses de experiencia en trading digital. | Eficacia (¿logra el resultado?) | **Tasa de pérdida severa en traders novatos** | Número de traders novatos con drawdown máximo superior al 20% en el periodo (perdida_severa = 1). | Total de traders novatos evaluados en el mismo periodo; puede segmentarse por formación recibida o por presencia de revenge trading sin cambiar la definición del indicador. | [Ver bloque de código 3] | Si no hay registro confiable de drawdown, el indicador pierde validez. Si el número de traders observados es muy pequeño, el resultado puede sesgarse. También falla si no se distingue entre cuenta demo y cuenta real. Adicionalmente: el journal del trader es un registro voluntario y suele subregistrar operaciones perdedoras por vergüenza o frustración, por lo que no debe usarse como fuente única -debe cruzarse con el historial de la plataforma/broker-; y la volatilidad del mercado durante el piloto y el capital inicial de la cuenta deben registrarse como variables de control, pues distorsionan el drawdown observado (las cuentas pequeñas se queman más rápido). | Tasa (%) | Mensual, con corte consolidado trimestral. |
 
-## Verificación y Metas
 
-| Fuente de datos (Verificación) | Línea base (Patrón actual) | Patrón esperado (Meta) | Condición de refutación (Fallo) |
-|---|---|---|---|
-| Historial de operaciones y registros de drawdown de la plataforma o broker (fuente primaria); journal del trader como fuente complementaria de contexto cualitativo -dado su carácter voluntario y el riesgo de subregistro de pérdidas, no se usa como única fuente-; encuesta de formación recibida. | Línea base propuesta: 60% de traders novatos presentan drawdown >20% en su primer año. | Alcanzar una tasa de pérdida severa igual o menor a 35% en el conjunto de traders novatos, evaluada trimestralmente. La meta se define sobre el indicador general -sin restringir la población a "sin formación"-, de modo que sea comparable independientemente de qué intervención(es) -formación, alertas de fricción u otras- se implementen entre la línea base y la medición de seguimiento. | **Se refuta la hipótesis si ocurre cualquiera de las siguientes condiciones (criterio idéntico en tablero y ficha, sin zona gris): (1) al cierre del periodo de evaluación la tasa de pérdida severa es superior a 35%, es decir, cualquier resultado que no alcance la meta cuenta como fallo, sin importar cuántos puntos haya bajado respecto a la línea base de 60%; o (2) la diferencia en tasa de pérdida severa entre el segmento con mayor frecuencia de revenge trading y el segmento con menor frecuencia es inferior a 10 puntos porcentuales, lo que indicaría que el mecanismo de sesgo no explica la variación observada.** |
 
-[Ver bloque de código 1] — Fórmula (Matemática)
-
-```
-TPS = ( Σ I(DDᵢ > 0.20) / N ) × 100, para i = 1, …, N.
-Donde: TPS = tasa de pérdida severa; DDᵢ = drawdown máximo del trader novato i en el periodo; I(DDᵢ > 0.20) = función indicador (1 si el drawdown supera 20%, 0 en otro caso); N = total de traders novatos observados en el periodo. Los cortes por formación o por revenge_trading se aplican filtrando N antes de calcular TPS, sin alterar la fórmula.
-```
+[Ver bloque de código 3] — Fórmula (Matemática)
